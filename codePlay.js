@@ -115,8 +115,8 @@ var codePlay = (function() {
             },
             status: "normal",
             data: {
-                html: "",
-                css: ""
+                html: "<html>\n<head></head>\n<body>\n</body>\n</html>",
+                css: "body { background-color:blue; }"
             },
             codeFontSize: "16px"
         },
