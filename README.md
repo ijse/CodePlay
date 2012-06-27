@@ -1,5 +1,12 @@
+## About ##
+一个用于演示和测试代码的页面工具，基于CodeMirror开发。   
+
 ## TODO LIST ##
 
- * Border resize handler
- * Accerlerate key
- * Make it easier to use
+ * 鼠标在边框上时可以调整大小
+ * 添加快捷键支持
+ * 最大化代码编辑区、预览区
+ * 鼠标调整代码区与预览区的显示比例
+ * 嵌入页面方式显示
+ * 标题栏最大化按钮
+ * 更方便的引入方式

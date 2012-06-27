@@ -78,7 +78,7 @@ var codePlay = (function() {
         var obj = inst.editor.getWrapperElement().style;
         if(delta === 0) {
             // Rewind font size
-            obj.fontSize = inst.codeFontSize();
+            obj.fontSize = inst.codeFontSize;
         } else {
             var curFontSize = obj.fontSize.replace("px","");
             var newFontSize = Number(curFontSize) + delta;
