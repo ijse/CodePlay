@@ -65,10 +65,26 @@ var codePlay = (function() {
             inst.curMode = this.getAttribute("href").replace("#","");
             // Save data
             inst.data[lastMode] = inst.editor.getValue();
-            inst.editor.setOption("mode", inst.curMode);
+            inst.editor.setOption("mode", inst.modeMap[inst.curMode]);
             inst.editor.setValue(inst.data[inst.curMode]);
         }
         return false;
+    }
+
+    function reFontSize(e, args) {
+        debugger;
+        var delta = args[0];
+        var inst = args[1];
+        var obj = inst.editor.getWrapperElement().style;
+        if(delta === 0) {
+            // Rewind font size
+            obj.fontSize = inst.codeFontSize();
+        } else {
+            var curFontSize = obj.fontSize.replace("px","");
+            var newFontSize = Number(curFontSize) + delta;
+            obj.fontSize = Number(curFontSize) ? newFontSize + "px" : inst.codeFontSize;
+        }
+        inst.editor.refresh();
     }
 
     var Class = function(properties) {
@@ -92,12 +108,17 @@ var codePlay = (function() {
             ResizeIco: true,
             Info: "标题",
             Zindex: 2,
-            curMode: "htmlmixed",
+            curMode: "html",
+            modeMap: {
+                "html": "htmlmixed",
+                "css": "css"
+            },
             status: "normal",
             data: {
-                htmlmixed: "",
+                html: "",
                 css: ""
-            }
+            },
+            codeFontSize: "16px"
         },
         initialize: function(options) {
             this._dragobj = null;
@@ -123,7 +144,9 @@ var codePlay = (function() {
             this.Titleheight = this.options.Titleheight;
             this.Zindex = this.options.Zindex;
             this.curMode = this.options.curMode;
+            this.modeMap = this.options.modeMap;
             this.data = this.options.data;
+            this.codeFontSize = this.options.codeFontSize;
             Extend(this, options);
             Dialog.Zindex = this.Zindex;
             //////////////////////////////////////////////////////////////////////////////// 构造dialog 
@@ -145,12 +168,12 @@ var codePlay = (function() {
             var self = this;
             create("ul", obj[1], function(elm) {
                 create("li", elm, function(el) {
-                    if(self.curMode === "htmlmixed") {
+                    if(self.curMode === "html") {
                         el.setAttribute("class", "cur");
                     }
                     create("a", el, function(e) {
                         e.setAttribute("class", "tabbtn cur");
-                        e.setAttribute("href", "#htmlmixed");
+                        e.setAttribute("href", "#html");
                         e.innerHTML = "HTML";
                         tabs.push(e);
                         addListener(e, "click", BindAsEventListener(e, tabSwitch, self));
@@ -175,6 +198,15 @@ var codePlay = (function() {
             var editor = create("textarea", obj[2], function(elm) {
                 //elm.className = "cm_html curEditor";
             });
+            create("div", obj[2], function(elm) {
+                elm.setAttribute("class", "fontResizer");
+                var fontPlus = create("b", elm, function(el) { el.innerHTML = "+"});
+                var fontMinus = create("b", elm, function(el) { el.innerHTML = "-"});
+                var fontNormal = create("b", elm, function(el) { el.innerHTML = "O"});
+                addListener(fontPlus, "click", BindAsEventListener(fontPlus, reFontSize, [2, self]));
+                addListener(fontMinus, "click", BindAsEventListener(fontMinus, reFontSize, [-2, self]));
+                addListener(fontNormal, "click", BindAsEventListener(fontNormal, reFontSize, [0, self]));
+            })
             /*
             var cm_css = create("textarea", obj[2], function(elm) {
                 elm.className = "cm_css";
@@ -195,14 +227,17 @@ var codePlay = (function() {
             this._resize = obj[5];
             this._cancel = cnlobj;
             this._body = obj[4];
-            debugger;
             this.editor = new CodeMirror.fromTextArea(editor, {
+                tabSize: 4,
+                indentUnit: 4,
+                smartIndent: true,
                 lineNumbers: true,
-                mode: this.curMode,
+                mode: this.modeMap[this.curMode],
                 onChange: BindAsEventListener(this, this.preview)
             }); 
             this.previewFrame = previewFrame;
             this.editor.setValue(this.data[this.curMode]);
+            this.editor.getWrapperElement().style.fontSize = this.codeFontSize;
 
             ////////////////////////////////////////////////////////////////////////////////o,x1,x2 
             ////设置Dialog的长 宽 ,left ,top 
@@ -327,11 +362,14 @@ var codePlay = (function() {
             var self = this;
             self.data[this.curMode] = self.editor.getValue();
             var frameDoc = self.previewFrame.contentDocument;
-            frameDoc.all[0].innerHTML = self.data.htmlmixed.replace(/<\/?html>/g, "")
+            //frameDoc.all[0].innerHTML = self.data.html.replace(/<\/?html>/g, "")
+            frameDoc.open();
+            frameDoc.write(self.data.html);
             frameDoc.head.appendChild(create("style", null, function(elm) {
                 elm.setAttribute("type", "text/css");
                 elm.innerHTML = self.data.css;
             }));
+            frameDoc.close();
         }
     });
 
