@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Code Editor and Previewer</title>
+	<script src="lib/codemirror.js"></script>
+	<link rel="stylesheet" href="lib/codemirror.css" />
+	<script src="lib/mode/css/css.js"></script>
+	<script src="lib/mode/javascript/javascript.js"></script>
+	<script src="lib/mode/xml/xml.js"></script>
+	<script src="lib/mode/htmlmixed/htmlmixed.js"></script>
+
+	<link rel="stylesheet" href="style/index.css" />
+
+</head>
+<body>
+
+
+	<div class="dialog-container">
+		<div class="dialog-title">
+			<ul>
+				<li><a href="#cm_html">HTML</a></li>
+				<li class="cur"><a href="#cm_css">CSS</a></li>
+			</ul>
+			<i></i>
+			<h3>here is title info</h3>
+		</div>
+		<div class="dialog-body">
+			<div class="code-side">
+				<div class="cm_html"></div>
+				<div class="cm_css"></div>
+			</div>
+			<div class="preview-side">
+				<iframe noresize="false"></iframe>
+			</div>
+		</div>
+		<div class="dialog-footer"></div>
+	</div>
+
+
+
+<script>
+
+	document.body.webkitRequestFullScreen();
+</script>
+</body>
+</html>
