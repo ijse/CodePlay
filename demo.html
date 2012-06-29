@@ -4,49 +4,37 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> 
 <title>Dialog</title> 
 
-<script src="lib/codemirror.js"></script>
-<link rel="stylesheet" href="lib/codemirror.css" />
-<script src="lib/mode/css/css.js"></script>
-<script src="lib/mode/javascript/javascript.js"></script>
-<script src="lib/mode/xml/xml.js"></script>
-<script src="lib/mode/htmlmixed/htmlmixed.js"></script>
+<script src="../CodePlay/index.js"></script>
 
-<link rel="stylesheet" href="style/index.css"/>
-<script src="codePlay.js"></script>
 </head> 
 <body > 
 <input value="创建" type="button" onclick="creat()" /> 
-<div id='aa'></div> 
 
 <script type="text/javascript">
-var z = 1,
-i = 1,
-left = 10
+window.onload = function() {
+    var z = 1,
+    i = 1,
+    left = 10
 
-var Dialog = codePlay;
-
-var demoDialog = new Dialog({
-    Width: 300,
-    Height: 300,
-    Left: 300,
-    Top: 300,
-    Info: "Code Info",
-    data: {
-        html: "<html>\n<head></head>\n<body>\n</body>\n</html>",
-        css: "body { background-color:blue; }"
-    }
-});
-
-function creat() {
-    new Dialog({
-        Info: title = "标题" + i,
-        Left: 300 + left,
-        Top: 300 + left,
-        Content: '内容' + i,
-        Zindex: (++Dialog.Zindex)
+    var demoDialog = new codePlay({
+        Width: 300,
+        Height: 300,
+        Left: 300,
+        Top: 300,
+        Info: "Code Info"
     });
-    i++;
-    left += 10;
+
+    window.creat = function() {
+        new codePlay({
+            Info: title = "标题" + i,
+            Left: 300 + left,
+            Top: 300 + left,
+            Content: '内容' + i
+        });
+        i++;
+        left += 10;
+    }
+
 }
 </script> 
 </body> 

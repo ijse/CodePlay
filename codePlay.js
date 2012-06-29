@@ -2,7 +2,7 @@
 var codePalyPath = "./codeEditor/";
 /** MAKE SURE IMPORT CODEMIRROR FIRST **/
 
-var codePlay = (function() {
+window.codePlay = (function() {
     var isIE = (document.all) ? true: false;
 
     // TODO: Import CodeMirror
@@ -115,8 +115,8 @@ var codePlay = (function() {
             },
             status: "normal",
             data: {
-                html: "<html>\n<head></head>\n<body>\n</body>\n</html>",
-                css: "body { background-color:blue; }"
+                html: "<html>\n\t<head>\n\n\t</head>\n\t<body>\n\n\t</body>\n</html>",
+                css: "body { \n\tbackground-color: blue; \n\tcolor: white; \n}"
             },
             codeFontSize: "16px"
         },
